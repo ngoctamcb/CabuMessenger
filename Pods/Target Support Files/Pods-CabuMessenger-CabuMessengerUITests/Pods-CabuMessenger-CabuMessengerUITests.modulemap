@@ -1,0 +1,6 @@
+module Pods_CabuMessenger_CabuMessengerUITests {
+  umbrella header "Pods-CabuMessenger-CabuMessengerUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

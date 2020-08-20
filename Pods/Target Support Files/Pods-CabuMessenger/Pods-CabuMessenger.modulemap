@@ -1,0 +1,6 @@
+module Pods_CabuMessenger {
+  umbrella header "Pods-CabuMessenger-umbrella.h"
+
+  export *
+  module * { export * }
+}
