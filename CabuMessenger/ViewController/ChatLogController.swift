@@ -10,9 +10,11 @@ import UIKit
 import Firebase
 import IHKeyboardAvoiding
 import FirebaseAnalytics
+import FirebaseRemoteConfig
 
 class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
     let cellId = "cellId"
+    var remoteConfig = RemoteConfig.remoteConfig()
 
     var user: User? {
         didSet {
@@ -65,11 +67,11 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = UIColor.gray
+//        collectionView?.backgroundColor = UIColor.gray
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 //        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundColor = UIColor.white
+//        collectionView?.backgroundColor = UIColor.white
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
         collectionView?.keyboardDismissMode = .interactive
@@ -79,6 +81,18 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         Analytics.logEvent(AnalyticsEventScreenView,
         parameters: [AnalyticsParameterScreenName: "CHAT",
                      AnalyticsParameterScreenClass: "CHAT VIEW CONTROLLER"])
+        
+        let background = remoteConfig.fetch(withExpirationDuration: 0) { (status, _) in
+            
+            if status == RemoteConfigFetchStatus.success {
+                RemoteConfig.remoteConfig().activateFetched()
+                let color = RemoteConfig.remoteConfig()
+                    .configValue(forKey: "backgroundcolor").stringValue
+                if color == "yellow" {
+                    self.collectionView?.backgroundColor = .yellow
+                }
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

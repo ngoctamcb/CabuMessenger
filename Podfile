@@ -13,6 +13,7 @@ pod 'Firebase/Storage'
 pod 'Firebase/Core'
 pod 'IHKeyboardAvoiding'
 pod 'Firebase/Analytics'
+pod ‘Firebase/RemoteConfig’
 
   target 'CabuMessengerTests' do
     inherit! :search_paths
